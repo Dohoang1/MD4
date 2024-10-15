@@ -20,7 +20,10 @@ public class DictionaryController {
         dictionary.put("world", "thế giới");
         dictionary.put("computer", "máy tính");
         dictionary.put("book", "sách");
-        dictionary.put("apple", "tao");
+        dictionary.put("apple", "trái táo");
+        dictionary.put("banana", "trái chuối");
+        dictionary.put("orange", "trái cam");
+        dictionary.put("grape", "trái nho");
     }
 
     @GetMapping("/dictionary")
@@ -28,13 +31,14 @@ public class DictionaryController {
         return "dictionary";
     }
 
+
     @PostMapping("/search")
     public String searchWord(@RequestParam("word") String word, Model model) {
         String result = searchInDictionary(word);
         model.addAttribute("result", result);
         return "dictionary";
     }
-
+    
     private String searchInDictionary(String word) {
         word = word.toLowerCase().trim();
         if (dictionary.containsKey(word)) {
