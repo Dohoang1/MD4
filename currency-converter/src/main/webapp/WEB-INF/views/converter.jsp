@@ -7,7 +7,7 @@
 </head>
 <body>
 <h1>Currency Converter</h1>
-<form action="/converter" method="post">
+<form action="converter" method="post">
     <label for="amount">Amount:</label>
     <input type="number" id="amount" name="amount" required step="0.01"><br><br>
 

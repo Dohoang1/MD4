@@ -10,7 +10,7 @@ import java.text.DecimalFormat;
 @Controller
 public class ConverterController {
 
-    private static final double USD_TO_VND_RATE = 23000;
+    private static final double USD_TO_VND_RATE = 24850;
 
     @GetMapping("/converter")
     public String converterPage() {
@@ -31,7 +31,7 @@ public class ConverterController {
         } else {
             result = amount;
         }
-        DecimalFormat df = new DecimalFormat("#,##0.00");
+        DecimalFormat df = new DecimalFormat("#,###.##");
         model.addAttribute("result", df.format(result) + " " + toCurrency);
         return "converter";
     }
