@@ -3,7 +3,7 @@ plugins {
   id 'war'
 }
 
-group 'com.example'
+group 'com'
 version '1.0-SNAPSHOT'
 
 repositories {
@@ -11,7 +11,7 @@ repositories {
 }
 
 ext {
-  junitVersion = '5.9.2'
+  junitVersion = '5.10.2'
 }
 
 sourceCompatibility = '1.8'
