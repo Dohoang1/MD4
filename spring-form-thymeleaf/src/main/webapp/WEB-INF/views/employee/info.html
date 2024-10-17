@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Thông tin</title>
+</head>
+<body>
+<h2>Thông tin nhân viên đã gửi</h2>
+<table>
+    <tr>
+        <td>Tên:</td>
+        <td th:text="${employee.name}"></td>
+    </tr>
+    <tr>
+        <td>Mã:</td>
+        <td th:text="${employee.id}"></td>
+    </tr>
+    <tr>
+        <td>Số liên lạc:</td>
+        <td th:text="${employee.contactNumber}"></td>
+    </tr>
+</table>
+</body>
+</html>

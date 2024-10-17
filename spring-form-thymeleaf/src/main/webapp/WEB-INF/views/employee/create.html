@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Tạo nhân viên mới</title>
+</head>
+<body>
+<h3>Chào mừng, Nhập thông tin nhân viên</h3>
+<form th:action="@{/employee/addEmployee}" th:object="${employee}" method="POST">
+  <table>
+    <tr>
+      <td><label th:for="id">Mã nhân viên: </label></td>
+      <td><input type="text" th:field="*{id}"/></td>
+    </tr>
+    <tr>
+      <td><label th:for="name">Tên nhân viên: </label></td>
+      <td><input type="text" th:field="*{name}"/></td>
+    </tr>
+    <tr>
+      <td><label th:for="contactNumber">Số liên lạc: </label></td>
+      <td><input type="text" th:field="*{contactNumber}"/></td>
+    </tr>
+    <tr>
+      <td><input type="submit" value="Gửi"/></td>
+    </tr>
+  </table>
+</form>
+</body>
+</html>
