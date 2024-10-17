@@ -28,7 +28,7 @@ public class CalculatorController {
                 break;
             case "-":
                 result = num1 - num2;
-                operationName = "Trừ";
+                operationName = "Trừ";  
                 break;
             case "*":
                 result = num1 * num2;

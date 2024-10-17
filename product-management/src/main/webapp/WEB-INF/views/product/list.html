@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Danh sách sản phẩm</title>
+</head>
+<body>
+<h1>Danh sách sản phẩm</h1>
+<div th:if="${message}" th:text="${message}" style="color: green; margin-bottom: 10px;"></div>
+<a th:href="@{/products/add}">Thêm sản phẩm mới</a>
+<form th:action="@{/products/search}" method="get">
+    <input type="text" name="name" th:value="${searchName}" placeholder="Nhập tên sản phẩm">
+    <button type="submit">Tìm kiếm</button>
+</form>
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Tên</th>
+        <th>Giá</th>
+        <th>Mô tả</th>
+        <th>Nhà sản xuất</th>
+        <th>Hành động</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="product : ${products}">
+        <td th:text="${product.id}"></td>
+        <td th:text="${product.name}"></td>
+        <td th:text="${product.price}"></td>
+        <td th:text="${product.description}"></td>
+        <td th:text="${product.manufacturer}"></td>
+        <td>
+            <form th:action="@{/products/details/{id}(id=${product.id})}" method="get" style="display: inline;">
+                <button type="submit">Chi tiết</button>
+            </form>
+            <form th:action="@{/products/edit/{id}(id=${product.id})}" method="get" style="display: inline;">
+                <button type="submit">Sửa</button>
+            </form>
+            <form th:action="@{/products/delete/{id}(id=${product.id})}" method="post" style="display: inline;">
+                <button type="submit" onclick="return confirm('Bạn có chắc chắn muốn xóa sản phẩm này?')">Xóa</button>
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>
