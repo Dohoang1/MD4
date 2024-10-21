@@ -1,10 +1,28 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout :: html(title = ~{::title}, content = ~{::content})}">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Thêm mới Khách hàng</title>
 </head>
 <body>
-
+<div th:fragment="content">
+    <h2>Thêm mới Khách hàng</h2>
+    <form th:action="@{/customers/save}" th:object="${customer}" method="post">
+        <div class="form-group">
+            <label for="name">Tên:</label>
+            <input type="text" class="form-control" id="name" th:field="*{name}" required>
+        </div>
+        <div class="form-group">
+            <label for="email">Email:</label>
+            <input type="email" class="form-control" id="email" th:field="*{email}" required>
+        </div>
+        <div class="form-group">
+            <label for="address">Địa chỉ:</label>
+            <input type="text" class="form-control" id="address" th:field="*{address}" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Lưu</button>
+        <a th:href="@{/customers}" class="btn btn-secondary">Hủy</a>
+    </form>
+</div>
 </body>
 </html>
