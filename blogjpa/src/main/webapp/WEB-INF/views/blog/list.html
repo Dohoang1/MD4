@@ -44,6 +44,19 @@
         </tr>
         </tbody>
     </table>
+    <nav aria-label="Page navigation" th:if="${totalPages > 1}">
+        <ul class="pagination justify-content-center">
+            <li class="page-item" th:classappend="${currentPage == 0} ? disabled">
+                <a class="page-link" th:href="@{/blogs(page=${currentPage - 1})}">&laquo;</a>
+            </li>
+            <li class="page-item" th:each="i : ${#numbers.sequence(0, totalPages - 1)}" th:classappend="${currentPage == i} ? active">
+                <a class="page-link" th:href="@{/blogs(page=${i})}" th:text="${i + 1}"></a>
+            </li>
+            <li class="page-item" th:classappend="${currentPage == totalPages - 1} ? disabled">
+                <a class="page-link" th:href="@{/blogs(page=${currentPage + 1})}">&raquo;</a>
+            </li>
+        </ul>
+    </nav>
 </div>
 </body>
 </html>

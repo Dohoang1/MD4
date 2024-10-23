@@ -4,6 +4,8 @@ import com.blogjpa.model.Blog;
 import com.blogjpa.repository.IBlogRepository;
 import com.blogjpa.util.FileUploadUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -19,6 +21,7 @@ public class BlogService implements IBlogService {
 
     @Autowired
     private FileUploadUtil fileUploadUtil;
+
 
     @Override
     public List<Blog> findAll() {
@@ -65,5 +68,10 @@ public class BlogService implements IBlogService {
             blog.setImage(fileName);
         }
         return blogRepository.save(blog);
+    }
+
+    @Override
+    public Page<Blog> findAll(Pageable pageable) {
+        return blogRepository.findAll(pageable);
     }
 }

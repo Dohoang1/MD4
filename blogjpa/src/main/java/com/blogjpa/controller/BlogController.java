@@ -5,6 +5,8 @@ import com.blogjpa.model.BlogUploadForm;
 import com.blogjpa.service.IBlogService;
 import com.blogjpa.util.FileUploadUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -26,9 +28,16 @@ public class BlogController {
     @Autowired
     private FileUploadUtil fileUploadUtil;
 
+
     @GetMapping
-    public String listBlogs(Model model) {
-        model.addAttribute("blogs", blogService.findAll());
+    public String listBlogs(Model model,
+                            @RequestParam(defaultValue = "0") int page,
+                            @RequestParam(defaultValue = "5") int size) {
+        Page<Blog> blogPage = blogService.findAll(PageRequest.of(page, size));
+        model.addAttribute("blogs", blogPage.getContent());
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", blogPage.getTotalPages());
+        model.addAttribute("totalItems", blogPage.getTotalElements());
         return "blog/list";
     }
 
