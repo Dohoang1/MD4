@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title th:text="${blog.title}">Chi Tiết Blog</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <style>
+    .blog-content {
+      white-space: pre-line;
+    }
+  </style>
+</head>
+<body>
+<div class="container mt-5">
+  <h1 th:text="${blog.title}">Tiêu đề Blog</h1>
+  <p><strong>Tác giả:</strong> <span th:text="${blog.author}"></span></p>
+  <p><strong>Ngày đăng:</strong> <span th:text="${blog.uploadTime}"></span></p>
+
+  <div th:if="${blog.image}">
+    <img th:src="@{'/image/' + ${blog.image}}" alt="Blog Image" class="img-fluid mb-3">
+  </div>
+
+  <div class="blog-content" th:text="${blog.content}">Nội dung blog</div>
+
+  <div class="mt-4">
+    <a th:href="@{/blogs/edit/{id}(id=${blog.id})}" class="btn btn-warning">Chỉnh Sửa</a>
+    <a th:href="@{/blogs}" class="btn btn-secondary">Quay Lại Danh Sách</a>
+  </div>
+</div>
+</body>
+</html>

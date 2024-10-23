@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="vi">
+<head th:replace="/layout :: head"></head>
+<body>
+<nav th:replace="/layout :: nav"></nav>
+
+<div class="container mt-4">
+    <h2 class="mb-4">Chi tiết khách hàng</h2>
+    <div class="mb-3">
+        <a th:href="@{/customers}" class="btn btn-secondary">
+            <i class="bi bi-arrow-left"></i> Quay lại danh sách khách hàng
+        </a>
+    </div>
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title" th:text="${customer.name}"></h5>
+            <p class="card-text">
+                <strong>Email:</strong> <span th:text="${customer.email}"></span><br>
+                <strong>Địa chỉ:</strong> <span th:text="${customer.address}"></span>
+            </p>
+            <a th:href="@{/customers/{id}/edit(id=${customer.id})}" class="btn btn-primary">
+                <i class="bi bi-pencil"></i> Chỉnh sửa
+            </a>
+            <a th:href="@{/customers/{id}/delete(id=${customer.id})}" class="btn btn-danger">
+                <i class="bi bi-trash"></i> Xóa
+            </a>
+        </div>
+    </div>
+</div>
+
+<footer th:replace="/layout :: footer"></footer>
+</body>
+</html>

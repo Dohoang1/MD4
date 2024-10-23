@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Lỗi</title>
+</head>
+<body>
+<h1>Đã xảy ra lỗi</h1>
+<p>Xin lỗi, đã có lỗi xảy ra. Vui lòng thử lại sau hoặc liên hệ với quản trị viên.</p>
+<p th:if="${ex}" th:text="${ex.message}"></p>
+</body>
+</html>

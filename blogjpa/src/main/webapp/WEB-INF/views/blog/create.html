@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Tạo Blog Mới</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container mt-5">
+    <h1>Tạo Blog Mới</h1>
+    <form th:action="@{/blogs/create}" th:object="${blogForm}" method="post" enctype="multipart/form-data">
+        <div class="form-group">
+            <label for="title">Tiêu đề:</label>
+            <input type="text" class="form-control" id="title" th:field="*{title}" required>
+            <span th:if="${#fields.hasErrors('title')}" th:errors="*{title}" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label for="content">Nội dung:</label>
+            <textarea class="form-control" id="content" th:field="*{content}" rows="5" required></textarea>
+            <span th:if="${#fields.hasErrors('content')}" th:errors="*{content}" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label for="author">Tác giả:</label>
+            <input type="text" class="form-control" id="author" th:field="*{author}" required>
+            <span th:if="${#fields.hasErrors('author')}" th:errors="*{author}" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label for="image">Hình ảnh:</label>
+            <input type="file" class="form-control-file" id="image" name="image">
+        </div>
+        <button type="submit" class="btn btn-primary">Tạo Blog</button>
+    </form>
+</div>
+</body>
+</html>

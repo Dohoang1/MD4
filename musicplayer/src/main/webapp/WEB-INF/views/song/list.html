@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Danh sách bài hát</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .audio-player {
+            width: 250px;
+        }
+    </style>
+</head>
+<body>
+<h1>Danh sách bài hát</h1>
+<a th:href="@{/songs/add}">Thêm bài hát mới</a>
+<table>
+    <tr>
+        <th>Tên</th>
+        <th>Nghệ sĩ</th>
+        <th>Thể loại</th>
+        <th>Hành động</th>
+    </tr>
+    <tr th:each="song : ${songs}">
+        <td th:text="${song.name}"></td>
+        <td th:text="${song.artist}"></td>
+        <td th:text="${song.genre}"></td>
+        <td>
+            <button th:onclick="'playSong(\'' + ${song.id} + '\', \'' + ${song.name} + '\', \'' + ${song.filePath} + '\')'">Phát</button>
+            <a th:href="@{/songs/edit/{id}(id=${song.id})}">Sửa</a>
+            <a th:href="@{/songs/delete/{id}(id=${song.id})}" onclick="return confirm('Bạn có chắc chắn muốn xóa?')">Xóa</a>
+        </td>
+    </tr>
+</table>
+
+<div id="audioPlayerContainer" style="display: none;">
+    <h2>Đang phát: <span id="nowPlaying"></span></h2>
+    <audio id="audioPlayer" controls class="audio-player">
+        Trình duyệt của bạn không hỗ trợ phát audio.
+    </audio>
+</div>
+
+<script>
+    function playSong(id, name, filePath) {
+        var audioPlayer = document.getElementById('audioPlayer');
+        var audioPlayerContainer = document.getElementById('audioPlayerContainer');
+        var nowPlaying = document.getElementById('nowPlaying');
+
+        audioPlayer.src = '/audio/' + filePath;
+        nowPlaying.textContent = name;
+        audioPlayerContainer.style.display = 'block';
+        audioPlayer.play();
+    }
+</script>
+</body>
+</html>
