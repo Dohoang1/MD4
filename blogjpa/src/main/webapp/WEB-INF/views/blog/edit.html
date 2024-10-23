@@ -7,6 +7,14 @@
 </head>
 <body>
 <div class="container mt-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1>DHBLOGGER</h1>
+        <div>
+            <span th:text="${session.admin}"></span>
+            <a href="/logout" class="btn btn-secondary ml-2">Đăng xuất</a>
+        </div>
+    </div>
+<div class="container mt-5">
     <h1>Chỉnh Sửa Blog</h1>
     <form th:action="@{/blogs/edit}" th:object="${blogForm}" method="post" enctype="multipart/form-data">
         <input type="hidden" th:field="*{id}">

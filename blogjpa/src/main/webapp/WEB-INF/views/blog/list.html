@@ -12,11 +12,18 @@
 </head>
 <body>
 <div class="container mt-5">
-    <h1 class="mb-4">Danh sách Blog</h1>
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1>Danh sách Blog</h1>
+        <div th:if="${session.admin}">
+            <span th:text="${session.admin}"></span>
+            <a href="/logout" class="btn btn-secondary ml-2">Đăng xuất</a>
+        </div>
+        <div th:unless="${session.admin}">
+            <a href="/login" class="btn btn-primary">Đăng nhập</a>
+        </div>
+    </div>
 
-    <div th:if="${message}" class="alert alert-success" th:text="${message}"></div>
-
-    <a href="/blogs/create" class="btn btn-primary mb-3">Thêm Blog mới</a>
+    <a href="/blogs/create" class="btn btn-primary mb-3" th:if="${session.admin}">Thêm Blog mới</a>
 
     <table class="table table-striped">
         <thead>
@@ -36,8 +43,8 @@
             </td>
             <td>
                 <a th:href="@{/blogs/{id}(id=${blog.id})}" class="btn btn-info btn-sm">Xem</a>
-                <a th:href="@{/blogs/edit/{id}(id=${blog.id})}" class="btn btn-warning btn-sm">Sửa</a>
-                <form th:action="@{/blogs/delete/{id}(id=${blog.id})}" method="post" style="display: inline;">
+                <a th:href="@{/blogs/edit/{id}(id=${blog.id})}" class="btn btn-warning btn-sm" th:if="${session.admin}">Sửa</a>
+                <form th:action="@{/blogs/delete/{id}(id=${blog.id})}" method="post" style="display: inline;" th:if="${session.admin}">
                     <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Bạn có chắc chắn muốn xóa?')">Xóa</button>
                 </form>
             </td>

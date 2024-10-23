@@ -12,6 +12,14 @@
 </head>
 <body>
 <div class="container mt-5">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h1>DHBLOGGER</h1>
+    <div>
+      <span th:text="${session.admin}"></span>
+      <a href="/logout" class="btn btn-secondary ml-2">Đăng xuất</a>
+    </div>
+  </div>
+<div class="container mt-5">
   <h1 th:text="${blog.title}">Tiêu đề Blog</h1>
   <p><strong>Tác giả:</strong> <span th:text="${blog.author}"></span></p>
   <p><strong>Ngày đăng:</strong> <span th:text="${blog.uploadTime}"></span></p>
