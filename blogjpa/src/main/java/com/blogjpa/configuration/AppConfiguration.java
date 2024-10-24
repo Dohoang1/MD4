@@ -48,6 +48,10 @@ public class AppConfiguration implements WebMvcConfigurer, ApplicationContextAwa
     @Value("${file-upload}")
     private String fileUpload;
 
+    @Value("${logo}")
+    private String logo;
+
+
     @Bean
     public String uploadPath() {
         return fileUpload;
@@ -140,6 +144,8 @@ public class AppConfiguration implements WebMvcConfigurer, ApplicationContextAwa
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/image/**")
                 .addResourceLocations("file:" + fileUpload);
+        registry.addResourceHandler("/logo/**")
+                .addResourceLocations("file:" + logo);
     }
 
     @Bean(name = "multipartResolver")

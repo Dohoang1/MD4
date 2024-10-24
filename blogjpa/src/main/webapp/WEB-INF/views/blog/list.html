@@ -2,29 +2,45 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Danh sách Blog</title>
+    <title>DHBLOGGER</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-    <style>
-        .blog-content {
-            white-space: pre-line;
-        }
-    </style>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 </head>
 <body>
-<div class="container mt-5">
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <h1>Danh sách Blog</h1>
-        <div th:if="${session.admin}">
-            <span th:text="${session.admin}"></span>
-            <a href="/logout" class="btn btn-secondary ml-2">Đăng xuất</a>
-        </div>
-        <div th:unless="${session.admin}">
-            <a href="/login" class="btn btn-primary">Đăng nhập</a>
-        </div>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="/blogs">
+        <img th:src="@{'/logo/logo.png'}" width="70" height="30" alt="logo" class="d-inline-block align-top">
+        DHBLOGGER
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+        <ul class="navbar-nav">
+            <li class="nav-item" th:if="${loggedInUser == null}">
+                <a class="nav-link" href="/register">Đăng ký</a>
+            </li>
+            <li class="nav-item" th:if="${loggedInUser == null}">
+                <a class="nav-link" href="/login">Đăng nhập</a>
+            </li>
+            <li class="nav-item dropdown" th:if="${loggedInUser != null}">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" th:text="${loggedInUser}">
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" th:if="${isAdmin}" href="/blogs/create">Thêm Blog mới</a>
+                    <div class="dropdown-divider" th:if="${isAdmin}"></div>
+                    <a class="dropdown-item" href="/logout">Đăng xuất</a>
+                </div>
+            </li>
+        </ul>
     </div>
+</nav>
 
-    <a href="/blogs/create" class="btn btn-primary mb-3" th:if="${session.admin}">Thêm Blog mới</a>
-
+<div class="container mt-5">
+    <h2>Danh sách Blog</h2>
     <table class="table table-striped">
         <thead>
         <tr>
@@ -42,15 +58,22 @@
                 <div class="blog-content" th:text="${#strings.abbreviate(blog.content, 100)}"></div>
             </td>
             <td>
-                <a th:href="@{/blogs/{id}(id=${blog.id})}" class="btn btn-info btn-sm">Xem</a>
-                <a th:href="@{/blogs/edit/{id}(id=${blog.id})}" class="btn btn-warning btn-sm" th:if="${session.admin}">Sửa</a>
-                <form th:action="@{/blogs/delete/{id}(id=${blog.id})}" method="post" style="display: inline;" th:if="${session.admin}">
-                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Bạn có chắc chắn muốn xóa?')">Xóa</button>
+                <a th:href="@{/blogs/{id}(id=${blog.id})}" class="btn btn-sm btn-info" title="Xem">
+                    <i class="bi bi-eye"></i>
+                </a>
+                <a th:if="${isAdmin}" th:href="@{/blogs/edit/{id}(id=${blog.id})}" class="btn btn-sm btn-warning" title="Sửa">
+                    <i class="bi bi-pencil"></i>
+                </a>
+                <form th:if="${isAdmin}" th:action="@{/blogs/delete/{id}(id=${blog.id})}" method="post" style="display: inline;">
+                    <button type="submit" class="btn btn-sm btn-danger" title="Xóa" onclick="return confirm('Bạn có chắc chắn muốn xóa?')">
+                        <i class="bi bi-trash"></i>
+                    </button>
                 </form>
             </td>
         </tr>
         </tbody>
     </table>
+
     <nav aria-label="Page navigation" th:if="${totalPages > 1}">
         <ul class="pagination justify-content-center">
             <li class="page-item" th:classappend="${currentPage == 0} ? disabled">

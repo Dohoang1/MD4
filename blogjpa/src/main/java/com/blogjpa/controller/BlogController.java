@@ -13,6 +13,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -28,31 +29,47 @@ public class BlogController {
     @Autowired
     private FileUploadUtil fileUploadUtil;
 
-
     @GetMapping
     public String listBlogs(Model model,
                             @RequestParam(defaultValue = "0") int page,
-                            @RequestParam(defaultValue = "5") int size) {
+                            @RequestParam(defaultValue = "5") int size,
+                            HttpSession session) {
         Page<Blog> blogPage = blogService.findAll(PageRequest.of(page, size));
         model.addAttribute("blogs", blogPage.getContent());
         model.addAttribute("currentPage", page);
         model.addAttribute("totalPages", blogPage.getTotalPages());
         model.addAttribute("totalItems", blogPage.getTotalElements());
+
+        if (session.getAttribute("admin") != null) {
+            model.addAttribute("loggedInUser", session.getAttribute("admin"));
+            model.addAttribute("isAdmin", true);
+        } else if (session.getAttribute("user") != null) {
+            model.addAttribute("loggedInUser", session.getAttribute("user"));
+            model.addAttribute("isAdmin", false);
+        }
+
         return "blog/list";
     }
 
     @GetMapping("/create")
-    public String showCreateForm(Model model) {
+    public String showCreateForm(Model model, HttpSession session) {
+        if (session.getAttribute("admin") == null) {
+            return "redirect:/login";
+        }
         model.addAttribute("blogForm", new BlogUploadForm());
-        return "blog/create";
+        return "admin/create";
     }
 
     @PostMapping("/create")
     public String createBlog(@ModelAttribute("blogForm") @Valid BlogUploadForm blogForm,
                              BindingResult bindingResult,
-                             RedirectAttributes redirectAttributes) {
+                             RedirectAttributes redirectAttributes,
+                             HttpSession session) {
+        if (session.getAttribute("admin") == null) {
+            return "redirect:/login";
+        }
         if (bindingResult.hasErrors()) {
-            return "blog/create";
+            return "admin/create";
         }
 
         try {
@@ -85,22 +102,29 @@ public class BlogController {
     }
 
     @GetMapping("/edit/{id}")
-    public String showEditForm(@PathVariable Long id, Model model) {
+    public String showEditForm(@PathVariable Long id, Model model, HttpSession session) {
+        if (session.getAttribute("admin") == null) {
+            return "redirect:/login";
+        }
         Blog blog = blogService.findById(id);
         if (blog == null) {
             return "error/404";
         }
         BlogUploadForm blogForm = convertToBlogForm(blog);
         model.addAttribute("blogForm", blogForm);
-        return "blog/edit";
+        return "admin/edit";
     }
 
     @PostMapping("/edit")
     public String editBlog(@ModelAttribute("blogForm") @Valid BlogUploadForm blogForm,
                            BindingResult bindingResult,
-                           RedirectAttributes redirectAttributes) {
+                           RedirectAttributes redirectAttributes,
+                           HttpSession session) {
+        if (session.getAttribute("admin") == null) {
+            return "redirect:/login";
+        }
         if (bindingResult.hasErrors()) {
-            return "blog/edit";
+            return "admin/edit";
         }
 
         try {
@@ -130,7 +154,10 @@ public class BlogController {
     }
 
     @PostMapping("/delete/{id}")
-    public String deleteBlog(@PathVariable Long id, RedirectAttributes redirectAttributes) {
+    public String deleteBlog(@PathVariable Long id, RedirectAttributes redirectAttributes, HttpSession session) {
+        if (session.getAttribute("admin") == null) {
+            return "redirect:/login";
+        }
         Blog blog = blogService.findById(id);
         if (blog == null) {
             return "error/404";

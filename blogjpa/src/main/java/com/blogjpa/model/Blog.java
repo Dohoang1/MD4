@@ -13,6 +13,7 @@ public class Blog {
 
     @Column(columnDefinition = "TEXT")
     private String content;
+
     private String author;
 
     @Column(name = "upload_time")
