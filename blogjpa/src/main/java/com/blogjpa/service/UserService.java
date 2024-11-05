@@ -22,7 +22,6 @@ public class UserService {
     public boolean authenticate(String username, String password) {
         User user = userRepository.findByUsername(username);
         if (user != null) {
-            // In ra log để kiểm tra
             System.out.println("Found user: " + user.getUsername());
             System.out.println("Stored password: " + user.getPassword());
             System.out.println("Input password: " + password);
